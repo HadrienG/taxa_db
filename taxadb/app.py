@@ -134,7 +134,7 @@ def create_db(args):
     if div in ['full', 'prot']:
         acc_dl_list.append(prot)
     parser = Accession2TaxidParser(verbose=args.verbose, fast=args.fast)
-    with db.atomic():
+    with db.atomic() as txn:
         for acc_file in acc_dl_list:
             inserted_rows = 0
             logger.info("Parsing %s" % str(acc_file))
@@ -149,6 +149,7 @@ def create_db(args):
             logger.info('%s: %s added to database (%d rows inserted)'
                         % (Accession.get_table_name(),
                             acc_file, inserted_rows))
+            txn.commit()
         if not Accession.has_index(name='accession_accession'):
             logger.info('Creating index for %s'
                         % Accession.get_table_name())
@@ -156,6 +157,7 @@ def create_db(args):
                 # db.add_index(Accession, ['accession'], unique=True)
                 idx = db.index(db.Accession, name='accession', unique=True)
                 db.add_index(idx)
+                txn.commit()
             except PeeweeException as err:
                 raise Exception("Could not create Accession index: %s"
                                 % str(err))
