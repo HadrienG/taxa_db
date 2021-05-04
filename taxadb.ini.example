@@ -1,7 +1,7 @@
 ; This is an example configuration file to use for testing taxadb application
 ; Edit following key to fit your database type (dbtype) and connection settings
 ; By default it uses sqlite and a provided SQLite database located in taxadb/test directory
-[sql]
+[DBSETTINGS]
 dbname=taxadb/test/test_db.sqlite
 dbtype=sqlite
 
