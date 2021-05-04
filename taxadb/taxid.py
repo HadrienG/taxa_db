@@ -104,7 +104,7 @@ class TaxID(TaxaDB):
             rank = Taxa.get(Taxa.ncbi_taxid == taxid).lineage_level
             while current_lineage != 'root':
                 if ranks:
-                    lineages.append((rank, current_lineage_id))
+                    lineages.append((rank, current_lineage))
                 else:
                     lineages.append(current_lineage)
                 new_query = Taxa.get(Taxa.ncbi_taxid == parent)
